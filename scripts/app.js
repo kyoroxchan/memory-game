@@ -77,12 +77,13 @@ const clearSound = new Audio('sounds/clear-sound.mp3');
  */
 const cards = [];
 
-const cardNum = 14; // カードのペアの数
+const cardNum = 5; // カードのペアの数
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
 let matches = 0;
 let timesFlipped = 0;
+let startTime, endTime;
 
 startButton.addEventListener('click', startGame);
 restartButton.addEventListener('click', restartGame);
@@ -167,6 +168,7 @@ function hideMissionScreen() {
     setTimeout(() => {
         missionScreen.style.display = 'none';
         body.style.overflowY = 'auto';
+        startTime = Date.now(); // ゲーム開始時にタイマーを開始
     }, 1500); // アニメーションの時間に合わせて調整
 }
 
@@ -253,12 +255,15 @@ function disableCards() {
         matches += 1;
         if (matches === cards.length / 2) {
             setTimeout(() => {
+                endTime = Date.now(); // ゲーム終了時の時間を取得
+                const elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // 経過時間を秒単位で計算
                 memoryGame.style.display = 'none';
                 gameClearScreen.style.display = 'flex';
                 body.style.overflowY = 'hidden';
                 clearSound.currentTime = 0; // 再生位置をリセット
                 clearSound.play(); // ゲームクリア時の音を再生
                 document.getElementById('times-flipped').textContent = timesFlipped;
+                document.getElementById('elapsed-time').textContent = elapsedTime; // 経過時間を表示
                 lockBoard = false; // ボードのロックを解除
             }, 700);
         } else {
