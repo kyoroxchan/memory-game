@@ -94,6 +94,7 @@ function startGame() {
 
     const startTime = Date.now();
     const minWaitTime = 4000; // 最低4秒待つ
+    memoryGame.style.display = 'flex';
 
     const waitForCompletion = () => {
         const elapsedTime = Date.now() - startTime;
@@ -101,12 +102,10 @@ function startGame() {
         if (remainingTime > 0) {
             setTimeout(() => {
                 missionScreen.style.display = 'none';
-                memoryGame.style.display = 'flex';
                 body.style.overflowY = 'auto';
             }, remainingTime);
         } else {
             missionScreen.style.display = 'none';
-            memoryGame.style.display = 'flex';
             body.style.overflowY = 'auto';
         }
     };
