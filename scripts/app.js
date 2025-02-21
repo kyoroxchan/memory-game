@@ -77,7 +77,7 @@ const clearSound = new Audio('sounds/clear-sound.mp3');
  */
 const cards = [];
 
-const cardNum = 2; // カードのペアの数
+const cardNum = 14; // カードのペアの数
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
