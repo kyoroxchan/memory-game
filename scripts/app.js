@@ -1,4 +1,9 @@
 /**
+ * HTMLのbody要素
+ * @type {HTMLElement}
+ */
+const body = document.body;
+/**
  * ゲーム開始ボタンの要素
  * @type {HTMLElement}
  */
@@ -64,7 +69,7 @@ const clearSound = new Audio('sounds/clear-sound.mp3');
  */
 const cards = [];
 
-const cardNum = 7; // カードのペアの数
+const cardNum = 14; // カードのペアの数
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
@@ -86,11 +91,27 @@ function startGame() {
     generateCards(cardNum); // カードのペアの数を指定
     shuffle();
     cards.forEach(card => card.addEventListener('click', flipCard));
-    setTimeout(() => {
-        missionScreen.style.display = 'none';
-        memoryGame.style.display = 'flex';
 
-    }, 4000); // 4秒間表示
+    const startTime = Date.now();
+    const minWaitTime = 4000; // 最低4秒待つ
+
+    const waitForCompletion = () => {
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = minWaitTime - elapsedTime;
+        if (remainingTime > 0) {
+            setTimeout(() => {
+                missionScreen.style.display = 'none';
+                memoryGame.style.display = 'flex';
+                body.style.overflowY = 'auto';
+            }, remainingTime);
+        } else {
+            missionScreen.style.display = 'none';
+            memoryGame.style.display = 'flex';
+            body.style.overflowY = 'auto';
+        }
+    };
+
+    waitForCompletion();
 }
 
 /**
@@ -178,6 +199,7 @@ function disableCards() {
             setTimeout(() => {
                 memoryGame.style.display = 'none';
                 gameClearScreen.style.display = 'flex';
+                body.style.overflowY = 'hidden';
                 clearSound.currentTime = 0; // 再生位置をリセット
                 clearSound.play(); // ゲームクリア時の音を再生
                 document.getElementById('times-flipped').textContent = timesFlipped;
