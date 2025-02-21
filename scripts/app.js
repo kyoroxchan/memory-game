@@ -82,14 +82,14 @@ function startGame() {
     startSound.play(); // ゲーム開始時の音を再生
     document.getElementById('start-screen').style.display = 'none';
     missionScreen.style.display = 'flex';
+    timesFlipped = 0;
+    generateCards(cardNum); // カードのペアの数を指定
+    shuffle();
+    cards.forEach(card => card.addEventListener('click', flipCard));
     setTimeout(() => {
         missionScreen.style.display = 'none';
         memoryGame.style.display = 'flex';
-        timesFlipped = 0;
 
-        generateCards(cardNum); // カードのペアの数を指定
-        shuffle();
-        cards.forEach(card => card.addEventListener('click', flipCard));
     }, 4000); // 4秒間表示
 }
 
