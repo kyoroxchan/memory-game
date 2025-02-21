@@ -85,7 +85,6 @@ restartButton.addEventListener('click', restartGame);
 function startGame() {
     startSound.currentTime = 0; // 再生位置をリセット
     startSound.play(); // ゲーム開始時の音を再生
-    document.getElementById('start-screen').style.display = 'none';
     missionScreen.style.display = 'flex';
     timesFlipped = 0;
     generateCards(cardNum); // カードのペアの数を指定
@@ -94,17 +93,20 @@ function startGame() {
 
     const startTime = Date.now();
     const minWaitTime = 4000; // 最低4秒待つ
-    memoryGame.style.display = 'flex';
-
+    setTimeout(() => {
+        memoryGame.style.display = 'flex';
+    }, 2000); // 2秒後に表示
     const waitForCompletion = () => {
         const elapsedTime = Date.now() - startTime;
         const remainingTime = minWaitTime - elapsedTime;
         if (remainingTime > 0) {
             setTimeout(() => {
+                document.getElementById('start-screen').style.display = 'none';
                 missionScreen.style.display = 'none';
                 body.style.overflowY = 'auto';
             }, remainingTime);
         } else {
+            document.getElementById('start-screen').style.display = 'none';
             missionScreen.style.display = 'none';
             body.style.overflowY = 'auto';
         }
