@@ -124,7 +124,7 @@ function generateCards(numPairs) {
         card.dataset.card = value;
         card.innerHTML = `
             <div class="front-face" style="background-image: url('images/front-face.png');"></div>
-            <div class="back-face" style="background-image: url('images/back-face-${value}.png');"></div>
+            <div class="back-face" style="background-image: url('images/back-face/${value}.png');"></div>
         `;
         memoryGame.appendChild(card);
         cards.push(card);
