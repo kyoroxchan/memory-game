@@ -166,6 +166,7 @@ function checkForMatch() {
  * 一致したカードを無効にする関数
  */
 function disableCards() {
+    lockBoard = true; // ボードをロック
     setTimeout(() => {
         firstCard.querySelector('.back-face').classList.add('matched');
         secondCard.querySelector('.back-face').classList.add('matched');
@@ -180,7 +181,10 @@ function disableCards() {
                 clearSound.currentTime = 0; // 再生位置をリセット
                 clearSound.play(); // ゲームクリア時の音を再生
                 document.getElementById('times-flipped').textContent = timesFlipped;
+                lockBoard = false; // ボードのロックを解除
             }, 700);
+        } else {
+            lockBoard = false; // ボードのロックを解除
         }
     }, 300);
 }
