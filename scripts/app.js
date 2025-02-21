@@ -20,12 +20,20 @@ const restartButton = document.getElementById('restart-button');
  * @type {HTMLElement}
  */
 const missionScreen = document.getElementById('mission-screen');
-
+const missionScreenLeft = document.querySelector('.left-screen');
+const missionScreenRight = document.querySelector('.right-screen');
+const missionText = document.querySelector('.mission-text');
 /**
  * メモリーゲームのコンテナ要素
  * @type {HTMLElement}
  */
 const memoryGame = document.getElementById('memory-game');
+
+/**
+ * ゲーム開始画面の要素
+ * @type {HTMLElement}
+ */
+const gameStartScreen = document.getElementById('start-screen');
 
 /**
  * ゲームクリア画面の要素
@@ -69,7 +77,7 @@ const clearSound = new Audio('sounds/clear-sound.mp3');
  */
 const cards = [];
 
-const cardNum = 14; // カードのペアの数
+const cardNum = 2; // カードのペアの数
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
@@ -83,37 +91,85 @@ restartButton.addEventListener('click', restartGame);
  * ゲームを開始する関数
  */
 function startGame() {
+    playStartSound();
+    showMissionScreen();
+    initializeGame();
+    waitForCompletion();
+}
+/**
+ * ゲーム開始時の音を再生する関数
+ */
+function playStartSound() {
     startSound.currentTime = 0; // 再生位置をリセット
     startSound.play(); // ゲーム開始時の音を再生
+}
+
+/**
+ * ミッション画面を表示する関数
+ */
+function showMissionScreen() {
     missionScreen.style.display = 'flex';
+    missionText.classList.remove('fadeOut');
+    missionText.classList.add('fadeIn');
+    missionScreenLeft.classList.remove('slideOutTopLeft');
+    missionScreenRight.classList.remove('slideOutBottomRight');
+    missionScreenLeft.classList.add('slideInTopLeft');
+    missionScreenRight.classList.add('slideInBottomRight');
+}
+
+/**
+ * ゲームを初期化する関数
+ */
+function initializeGame() {
     timesFlipped = 0;
     generateCards(cardNum); // カードのペアの数を指定
     shuffle();
     cards.forEach(card => card.addEventListener('click', flipCard));
-
-    const startTime = Date.now();
-    const minWaitTime = 4000; // 最低4秒待つ
     setTimeout(() => {
         memoryGame.style.display = 'flex';
     }, 2000); // 2秒後に表示
-    const waitForCompletion = () => {
+}
+
+/**
+ * ミッション画面の表示を待つ関数
+ */
+function waitForCompletion() {
+    const startTime = Date.now();
+    const minWaitTime = 4000; // 最低4秒待つ
+    const checkCompletion = () => {
         const elapsedTime = Date.now() - startTime;
         const remainingTime = minWaitTime - elapsedTime;
         if (remainingTime > 0) {
             setTimeout(() => {
-                document.getElementById('start-screen').style.display = 'none';
-                missionScreen.style.display = 'none';
-                body.style.overflowY = 'auto';
+                hideMissionScreen();
             }, remainingTime);
         } else {
-            document.getElementById('start-screen').style.display = 'none';
-            missionScreen.style.display = 'none';
-            body.style.overflowY = 'auto';
+            hideMissionScreen();
         }
     };
-
-    waitForCompletion();
+    checkCompletion();
 }
+
+/**
+ * ミッション画面を非表示にする関数
+ */
+function hideMissionScreen() {
+    missionText.classList.remove('fadeIn');
+    missionText.classList.add('fadeOut');
+    setTimeout(() => {
+        missionScreenLeft.classList.remove('slideInTopLeft');
+        missionScreenRight.classList.remove('slideInBottomRight');
+        missionScreenLeft.classList.add('slideOutTopLeft');
+        missionScreenRight.classList.add('slideOutBottomRight');
+        gameStartScreen.style.display = 'none';
+        gameClearScreen.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+        missionScreen.style.display = 'none';
+        body.style.overflowY = 'auto';
+    }, 1500); // アニメーションの時間に合わせて調整
+}
+
 
 /**
  * ゲームを再スタートする関数
@@ -125,7 +181,6 @@ function restartGame() {
     firstCard = null;
     secondCard = null;
     timesFlipped = 0;
-    gameClearScreen.style.display = 'none';
     memoryGame.innerHTML = '';
     cards.length = 0;
     startGame();

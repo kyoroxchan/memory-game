@@ -187,14 +187,28 @@ body {
     top: -100%;
     left: -150%;
     transform: rotate(-45deg);
-    animation: slideInTopLeft .5s forwards;
 }
 
 .right-screen {
     bottom: -100%;
     right: -150%;
     transform: rotate(-45deg);
+}
+
+.slideInTopLeft {
+    animation: slideInTopLeft .5s forwards;
+}
+
+.slideOutTopLeft {
+    animation: slideOutTopLeft .5s forwards;
+}
+
+.slideInBottomRight {
     animation: slideInBottomRight .5s forwards;
+}
+
+.slideOutBottomRight {
+    animation: slideOutBottomRight .5s forwards;
 }
 
 @keyframes slideInTopLeft {
@@ -221,14 +235,47 @@ body {
     }
 }
 
+@keyframes slideOutTopLeft {
+    0% {
+        top: -100%;
+        left: -60%;
+    }
+
+    100% {
+        top: -200%;
+        left: -150%;
+    }
+}
+
+@keyframes slideOutBottomRight {
+    0% {
+        bottom: -100%;
+        right: -60%;
+    }
+
+    100% {
+        bottom: -200%;
+        right: -150%;
+    }
+}
+
+
+
 .mission-text {
     position: absolute;
     color: white;
     font-size: 2em;
     text-align: center;
     opacity: 0;
-    animation: fadeIn .5s 1s forwards;
     z-index: 1001;
+}
+
+.fadeIn {
+    animation: fadeIn .5s 1s forwards;
+}
+
+.fadeOut {
+    animation: fadeOut 1s forwards;
 }
 
 @keyframes fadeIn {
@@ -238,6 +285,16 @@ body {
 
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
     }
 }
 
@@ -268,14 +325,12 @@ body {
         top: -100%;
         left: -150%;
         transform: rotate(-45deg);
-        animation: slideInTopLeft .5s forwards;
     }
 
     .right-screen {
         bottom: -100%;
         right: -150%;
         transform: rotate(-45deg);
-        animation: slideInBottomRight .5s forwards;
     }
 
     @keyframes slideInTopLeft {
@@ -308,7 +363,6 @@ body {
         font-size: 2em;
         text-align: center;
         opacity: 0;
-        animation: fadeIn .5s 1s forwards;
         z-index: 1001;
     }
 
@@ -352,14 +406,12 @@ body {
         top: -100%;
         left: -150%;
         transform: rotate(-25deg);
-        animation: slideInTopLeft .5s forwards;
     }
 
     .right-screen {
         bottom: -100%;
         right: -150%;
         transform: rotate(-25deg);
-        animation: slideInBottomRight .5s forwards;
     }
 
     @keyframes slideInTopLeft {
@@ -392,7 +444,6 @@ body {
         font-size: 1em;
         text-align: center;
         opacity: 0;
-        animation: fadeIn .5s 1s forwards;
         z-index: 1001;
     }
 }
